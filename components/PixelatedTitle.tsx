@@ -93,32 +93,73 @@ export default function PixelatedTitle({
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
-    const onMove = (e: MouseEvent) => {
-      const rect = canvas.getBoundingClientRect()
-      targetRef.current = { x: e.clientX - rect.left, y: e.clientY - rect.top }
-    }
-    const onLeave = () => {
-      targetRef.current = { x: -9999, y: -9999 }
-    }
+    const dotRadius = cellSize * 0.45
+    const useRect = cellSize <= 2  // fillRect is ~10x faster than arc for sub-pixel dots
+    const dotSize = Math.max(1, cellSize)
 
-    canvas.addEventListener('mousemove', onMove)
-    canvas.addEventListener('mouseleave', onLeave)
-
-    const render = () => {
+    // ── Draw static undistorted text (no RAF needed) ──
+    const drawStatic = () => {
       const { w, h } = sizeRef.current
-      if (!w) { frameRef.current = requestAnimationFrame(render); return }
+      if (!w) return
+      ctx.clearRect(0, 0, w, h)
+      ctx.fillStyle = color
+      let lastAlpha = -1
+      for (const p of pixelsRef.current) {
+        if (p.a !== lastAlpha) { ctx.globalAlpha = p.a; lastAlpha = p.a }
+        if (useRect) {
+          ctx.fillRect(p.x, p.y, dotSize, dotSize)
+        } else {
+          ctx.beginPath()
+          ctx.arc(p.x + dotRadius, p.y + dotRadius, dotRadius, 0, Math.PI * 2)
+          ctx.fill()
+        }
+      }
+      ctx.globalAlpha = 1
+    }
 
-      // Moderate follow speed — smooth but responsive
+    // Initial static render — no RAF needed when mouse is outside
+    drawStatic()
+
+    // ── Interactive loop — only runs while mouse is over the canvas ──
+    let isActive = false
+    let settleTimer = 0
+    let tick = 0
+
+    const startLoop = () => {
+      if (isActive) return
+      isActive = true
+      tick = 0
+      loop()
+    }
+
+    const stopLoop = () => {
+      isActive = false
+      cancelAnimationFrame(frameRef.current)
+      // Lerp mouse back to off-screen target then draw final static frame
+      mouseRef.current = { x: -9999, y: -9999 }
+      drawStatic()
+    }
+
+    const loop = () => {
+      if (!isActive) return
+      tick++
+      frameRef.current = requestAnimationFrame(loop)
+      if (tick % 2 !== 0) return  // ~30fps
+
+      const { w, h } = sizeRef.current
+      if (!w) return
+
       mouseRef.current.x += (targetRef.current.x - mouseRef.current.x) * 0.35
       mouseRef.current.y += (targetRef.current.y - mouseRef.current.y) * 0.35
 
       ctx.clearRect(0, 0, w, h)
+      ctx.fillStyle = color
 
       const mx = mouseRef.current.x
       const my = mouseRef.current.y
       const r = distortionRadius
       const s = distortionStrength
-      const dotRadius = cellSize * 0.45  // Round dot radius
+      let lastAlpha = -1
 
       for (const p of pixelsRef.current) {
         let px = p.x
@@ -129,9 +170,8 @@ export default function PixelatedTitle({
         const dist = Math.sqrt(dx * dx + dy * dy)
 
         if (dist < r && dist > 0) {
-          // Smooth easing — cubic falloff for gentle transition
           const t = 1 - dist / r
-          const ease = t * t * (3 - 2 * t) // smoothstep
+          const ease = t * t * (3 - 2 * t)
           const force = ease * s
           const angle = Math.atan2(dy, dx)
           const swirl = angle + force * 0.8
@@ -139,22 +179,39 @@ export default function PixelatedTitle({
           py += Math.sin(swirl) * force * 6
         }
 
-        // Draw round dots instead of squares
-        ctx.globalAlpha = p.a
-        ctx.fillStyle = color
-        ctx.beginPath()
-        ctx.arc(Math.round(px) + dotRadius, Math.round(py) + dotRadius, dotRadius, 0, Math.PI * 2)
-        ctx.fill()
+        if (p.a !== lastAlpha) { ctx.globalAlpha = p.a; lastAlpha = p.a }
+
+        if (useRect) {
+          ctx.fillRect(Math.round(px), Math.round(py), dotSize, dotSize)
+        } else {
+          ctx.beginPath()
+          ctx.arc(Math.round(px) + dotRadius, Math.round(py) + dotRadius, dotRadius, 0, Math.PI * 2)
+          ctx.fill()
+        }
       }
       ctx.globalAlpha = 1
-
-      frameRef.current = requestAnimationFrame(render)
     }
-    render()
+
+    const onMove = (e: MouseEvent) => {
+      const rect = canvas.getBoundingClientRect()
+      targetRef.current = { x: e.clientX - rect.left, y: e.clientY - rect.top }
+      clearTimeout(settleTimer)
+      startLoop()
+    }
+
+    const onLeave = () => {
+      targetRef.current = { x: -9999, y: -9999 }
+      // Let lerp settle (~800ms at 0.35 speed), then stop the loop
+      settleTimer = window.setTimeout(stopLoop, 800)
+    }
+
+    canvas.addEventListener('mousemove', onMove)
+    canvas.addEventListener('mouseleave', onLeave)
 
     return () => {
       canvas.removeEventListener('mousemove', onMove)
       canvas.removeEventListener('mouseleave', onLeave)
+      clearTimeout(settleTimer)
       cancelAnimationFrame(frameRef.current)
     }
   }, [ready, cellSize, color, distortionRadius, distortionStrength])

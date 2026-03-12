@@ -190,3 +190,49 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+/* ─── Custom Cursor ─── */
+.has-custom-cursor,
+.has-custom-cursor * {
+  cursor: none !important;
+}
+
+/* ─── Marquee ─── */
+.marquee-track {
+  display: flex;
+  gap: 2.5em;
+  white-space: nowrap;
+  animation: marquee 22s linear infinite;
+  width: max-content;
+  /* No padding — it breaks the -50% seamless loop point */
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ─── Perspective for 3D text reveal ─── */
+.text-reveal-container {
+  perspective: 800px;
+}
+
+/* ─── cs-video hover glow ─── */
+.cs-video {
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+}
+.cs-video:hover {
+  border-color: rgba(139, 92, 246, 0.25) !important;
+  box-shadow: 0 0 40px rgba(139, 92, 246, 0.12);
+}
+
+/* ─── Mobile responsive nav links ─── */
+@media (max-width: 640px) {
+  .nav-links {
+    display: none;
+  }
+}

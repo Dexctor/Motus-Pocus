@@ -58,9 +58,17 @@ export default function AuroraCanvas() {
     const onMouseMove = (e: MouseEvent) => {
       mouseRef.current = { x: e.clientX, y: e.clientY }
     }
-    window.addEventListener('mousemove', onMouseMove)
+    window.addEventListener('mousemove', onMouseMove, { passive: true })
+    window.addEventListener('resize', setSize, { passive: true })
+
+    // ── 30fps throttle: render every other RAF tick ──
+    let tick = 0
 
     const animate = () => {
+      frameRef.current = requestAnimationFrame(animate)
+      tick++
+      if (tick % 2 !== 0) return // ~30fps
+
       ctx.clearRect(0, 0, canvas.width, canvas.height)
 
       blobs.forEach((blob) => {
@@ -73,7 +81,7 @@ export default function AuroraCanvas() {
         blob.vx += dx * 0.000012
         blob.vy += dy * 0.000012
 
-        const speed = Math.sqrt(blob.vx ** 2 + blob.vy ** 2)
+        const speed = Math.sqrt(blob.vx * blob.vx + blob.vy * blob.vy)
         if (speed > 0.5) {
           blob.vx = (blob.vx / speed) * 0.5
           blob.vy = (blob.vy / speed) * 0.5
@@ -101,8 +109,6 @@ export default function AuroraCanvas() {
         ctx.fill()
         ctx.restore()
       })
-
-      frameRef.current = requestAnimationFrame(animate)
     }
     animate()
 

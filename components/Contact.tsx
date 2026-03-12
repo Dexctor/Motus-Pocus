@@ -81,7 +81,7 @@ export default function Contact() {
       <h2
         ref={titleRef}
         style={{
-          fontFamily: 'var(--font-syne), sans-serif',
+          fontFamily: "var(--font-inter), 'Helvetica Neue', Helvetica, sans-serif",
           fontWeight: 800,
           fontSize: 'clamp(28px, 6vw, 56px)',
           textAlign: 'center',
@@ -138,7 +138,7 @@ export default function Contact() {
             />
             <span
               style={{
-                fontFamily: 'var(--font-syne)',
+                fontFamily: "var(--font-inter), 'Helvetica Neue', Helvetica, sans-serif",
                 fontWeight: 700,
                 fontSize: '18px',
                 color: '#1a1a1a',
@@ -152,7 +152,7 @@ export default function Contact() {
               fontSize: '14px',
               color: '#666',
               textAlign: 'center',
-              fontFamily: 'var(--font-dm-sans)',
+              fontFamily: "var(--font-inter), 'Helvetica Neue', Helvetica, sans-serif",
             }}
           >
             Discutons de votre projet vidéo, motion design ou sound design.

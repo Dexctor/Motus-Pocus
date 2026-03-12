@@ -18,47 +18,62 @@ export default function Hero() {
   const scrollHintRef = useRef<HTMLDivElement>(null)
 
   useGSAP(() => {
+    // ─── Entrance timeline ───
     const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
 
     tl.fromTo(
       portraitRef.current,
-      { opacity: 0, scale: 0.85, y: 20 },
-      { opacity: 1, scale: 1, y: 0, duration: 1.1 }
+      { opacity: 0, scale: 0.82, y: 28 },
+      { opacity: 1, scale: 1, y: 0, duration: 1.2 }
     )
       .fromTo(
         titleRef.current,
-        { opacity: 0, y: 24 },
-        { opacity: 1, y: 0, duration: 0.8 },
-        '-=0.5'
+        { opacity: 0, y: 28 },
+        { opacity: 1, y: 0, duration: 0.85 },
+        '-=0.55'
       )
       .fromTo(
         taglineRef.current,
-        { opacity: 0, y: 16 },
+        { opacity: 0, y: 18 },
         { opacity: 1, y: 0, duration: 0.7 },
-        '-=0.3'
+        '-=0.35'
       )
       .fromTo(
         ctaRef.current,
-        { opacity: 0, y: 16, scale: 0.95 },
+        { opacity: 0, y: 16, scale: 0.93 },
         { opacity: 1, y: 0, scale: 1, duration: 0.6 },
-        '-=0.2'
+        '-=0.25'
       )
       .fromTo(
         scrollHintRef.current,
         { opacity: 0 },
-        { opacity: 1, duration: 0.7 },
+        { opacity: 1, duration: 0.8 },
         '-=0.1'
       )
 
-    gsap.to(portraitRef.current, {
-      yPercent: -12,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: sectionRef.current,
-        start: 'top top',
-        end: 'bottom top',
-        scrub: true,
-      },
+    // ─── Portrait idle float ───
+    tl.to(
+      portraitRef.current,
+      { y: -10, duration: 2.8, ease: 'sine.inOut', yoyo: true, repeat: -1 },
+      '+=0.2'
+    )
+
+    // ─── Scroll parallax (portrait + title + tagline) ───
+    ;[
+      { el: portraitRef.current, yPercent: -15 },
+      { el: titleRef.current, yPercent: -8 },
+      { el: taglineRef.current, yPercent: -5 },
+    ].forEach(({ el, yPercent }) => {
+      gsap.to(el, {
+        yPercent,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true,
+        },
+      })
     })
   }, { scope: sectionRef })
 
@@ -99,11 +114,11 @@ export default function Hero() {
         className="portrait-glow"
         style={{
           position: 'relative',
-          width: '160px',
-          height: '200px',
+          width: '150px',
+          height: '150px',
           borderRadius: '50%',
           overflow: 'hidden',
-          marginBottom: '24px',
+          marginBottom: '28px',
           opacity: 0,
         }}
       >
@@ -121,7 +136,7 @@ export default function Hero() {
         <PixelatedTitle
           text="Motus Pocus"
           fontSize={100}
-          cellSize={1}
+          cellSize={2}
           color="#ffffff"
           distortionRadius={120}
           distortionStrength={5}

@@ -28,7 +28,7 @@ export default function Footer() {
             fontSize: '12px',
             color: 'rgba(255,255,255,0.25)',
             textDecoration: 'none',
-            fontFamily: 'var(--font-dm-sans)',
+            fontFamily: "var(--font-inter), 'Helvetica Neue', Helvetica, sans-serif",
             transition: 'color 0.3s',
           }}
           onMouseEnter={(e) => (e.currentTarget.style.color = 'rgba(255,255,255,0.6)')}
@@ -42,7 +42,7 @@ export default function Footer() {
             fontSize: '12px',
             color: 'rgba(255,255,255,0.25)',
             textDecoration: 'none',
-            fontFamily: 'var(--font-dm-sans)',
+            fontFamily: "var(--font-inter), 'Helvetica Neue', Helvetica, sans-serif",
             transition: 'color 0.3s',
           }}
           onMouseEnter={(e) => (e.currentTarget.style.color = 'rgba(255,255,255,0.6)')}
@@ -55,7 +55,7 @@ export default function Footer() {
         style={{
           fontSize: '11px',
           color: 'rgba(255,255,255,0.15)',
-          fontFamily: 'var(--font-dm-sans)',
+          fontFamily: "var(--font-inter), 'Helvetica Neue', Helvetica, sans-serif",
         }}
       >
         © {new Date().getFullYear()} Motus Pocus. Tous droits réservés.

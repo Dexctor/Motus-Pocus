@@ -1,6 +1,8 @@
 import AuroraCanvas from '@/components/AuroraCanvas'
 import Nav from '@/components/Nav'
 import Hero from '@/components/Hero'
+import Marquee from '@/components/Marquee'
+import Services from '@/components/Services'
 import ContentSection from '@/components/ContentSection'
 import Contact from '@/components/Contact'
 import Footer from '@/components/Footer'
@@ -12,8 +14,10 @@ export default function Home() {
       <Nav />
       <main style={{ position: 'relative', zIndex: 10 }}>
         <Hero />
+        <Marquee />
+        <Services />
 
-        {/* Section 1: Text + 2 GIFs/demo videos side by side — full screen */}
+        {/* Section 1 */}
         <ContentSection
           text="Apportez de la valeur à vos vidéos"
           videos={[
@@ -22,7 +26,7 @@ export default function Home() {
           ]}
         />
 
-        {/* Section 2: Text + 2 YouTube videos side by side — full screen */}
+        {/* Section 2 */}
         <ContentSection
           text="Apportez du rythme à vos vidéos"
           videos={[
