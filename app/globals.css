@@ -230,9 +230,39 @@ body {
   box-shadow: 0 0 40px rgba(139, 92, 246, 0.12);
 }
 
-/* ─── Mobile responsive nav links ─── */
+/* ─── Nav links ─── */
+.nav-links {
+  display: flex;
+  gap: 28px;
+}
+
 @media (max-width: 640px) {
   .nav-links {
     display: none;
+  }
+}
+
+/* ─── Video grid responsive ─── */
+.cs-video-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  width: 100%;
+  max-width: 1100px;
+}
+
+@media (max-width: 640px) {
+  .cs-video-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ─── Section padding mobile ─── */
+@media (max-width: 640px) {
+  .section-pad {
+    padding: 60px 20px 80px;
+  }
+  .content-section-pad {
+    padding: 60px 20px;
   }
 }

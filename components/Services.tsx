@@ -35,17 +35,19 @@ export default function Services() {
     const label = sectionRef.current?.querySelector('.services-label')
     const cards = sectionRef.current?.querySelectorAll('.service-card')
 
-    gsap.fromTo(
-      label,
-      { opacity: 0, y: 20 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.7,
-        ease: 'power3.out',
-        scrollTrigger: { trigger: label, start: 'top 85%', toggleActions: 'play none none reverse' },
-      }
-    )
+    if (label) {
+      gsap.fromTo(
+        label,
+        { opacity: 0, y: 20 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.7,
+          ease: 'power3.out',
+          scrollTrigger: { trigger: label, start: 'top 85%', toggleActions: 'play none none reverse' },
+        }
+      )
+    }
 
     cards?.forEach((card, i) => {
       gsap.fromTo(
@@ -67,6 +69,7 @@ export default function Services() {
     <section
       ref={sectionRef}
       id="services"
+      className="section-pad"
       style={{
         position: 'relative',
         zIndex: 10,
@@ -92,9 +95,10 @@ export default function Services() {
 
         {/* Cards grid */}
         <div
+          className="services-grid"
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(280px, 100%), 1fr))',
             gap: '1px',
             background: 'rgba(255,255,255,0.07)',
             borderRadius: '20px',

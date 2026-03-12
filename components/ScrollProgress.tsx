@@ -13,6 +13,8 @@ export default function ScrollProgress() {
     const bar = barRef.current
     if (!bar) return
 
+    gsap.set(bar, { scaleX: 0 })
+
     const st = ScrollTrigger.create({
       start: 'top top',
       end: 'bottom bottom',
@@ -47,7 +49,6 @@ export default function ScrollProgress() {
           height: '100%',
           width: '100%',
           transformOrigin: 'left',
-          scaleX: 0,
           background: 'linear-gradient(90deg, var(--accent) 0%, var(--accent-light) 50%, #3B82F6 100%)',
           boxShadow: '0 0 8px rgba(139, 92, 246, 0.6)',
         }}

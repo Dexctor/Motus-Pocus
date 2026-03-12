@@ -65,7 +65,6 @@ export default function Nav() {
       {/* Center links — hidden on mobile via CSS */}
       <div
         className="nav-links"
-        style={{ display: 'flex', gap: '28px' }}
       >
         {NAV_LINKS.map(({ label, href }) => (
           <a

@@ -71,8 +71,9 @@ export default function PixelatedTitle({
 
       canvas.width = w
       canvas.height = h
-      canvas.style.width = `${w}px`
-      canvas.style.height = `${h}px`
+      // Let CSS scale the canvas down on mobile; maxWidth is set in JSX style
+      canvas.style.width = `min(${w}px, 100%)`
+      canvas.style.height = 'auto'
       setReady(true)
     }
 
@@ -194,7 +195,13 @@ export default function PixelatedTitle({
 
     const onMove = (e: MouseEvent) => {
       const rect = canvas.getBoundingClientRect()
-      targetRef.current = { x: e.clientX - rect.left, y: e.clientY - rect.top }
+      // Scale mouse coords from CSS pixels to canvas pixels when canvas is shrunk by CSS
+      const scaleX = canvas.width / rect.width
+      const scaleY = canvas.height / rect.height
+      targetRef.current = {
+        x: (e.clientX - rect.left) * scaleX,
+        y: (e.clientY - rect.top) * scaleY,
+      }
       clearTimeout(settleTimer)
       startLoop()
     }
@@ -223,6 +230,8 @@ export default function PixelatedTitle({
         display: 'block',
         margin: '0 auto',
         cursor: 'default',
+        maxWidth: '100%',
+        height: 'auto',
       }}
     />
   )

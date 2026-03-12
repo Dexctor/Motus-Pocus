@@ -129,6 +129,7 @@ export default function ContentSection({
   return (
     <section
       ref={sectionRef}
+      className="content-section-pad"
       style={{
         position: 'relative',
         minHeight: '100vh',
@@ -185,13 +186,7 @@ export default function ContentSection({
 
       {/* Videos */}
       <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
-          gap: '24px',
-          width: '100%',
-          maxWidth: '1100px',
-        }}
+        className="cs-video-grid"
       >
         {videos.map((video, i) => (
           <div
