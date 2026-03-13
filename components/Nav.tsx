@@ -50,6 +50,8 @@ export default function Nav() {
       {/* Logo */}
       <a
         href="#hero"
+        className="nav-logo"
+        data-text="Motus Pocus"
         style={{
           fontWeight: 700,
           fontSize: '14px',

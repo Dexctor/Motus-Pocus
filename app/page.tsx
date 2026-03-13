@@ -2,8 +2,10 @@ import AuroraCanvas from '@/components/AuroraCanvas'
 import Nav from '@/components/Nav'
 import Hero from '@/components/Hero'
 import Marquee from '@/components/Marquee'
+import TimelineDivider from '@/components/TimelineDivider'
 import Services from '@/components/Services'
 import ContentSection from '@/components/ContentSection'
+import FerrofluidDivider from '@/components/FerrofluidDivider'
 import Contact from '@/components/Contact'
 import Footer from '@/components/Footer'
 
@@ -15,6 +17,7 @@ export default function Home() {
       <main style={{ position: 'relative', zIndex: 10 }}>
         <Hero />
         <Marquee />
+        <TimelineDivider />
         <Services />
 
         {/* Section 1 */}
@@ -37,6 +40,7 @@ export default function Home() {
           animation="blurIn"
         />
 
+        <FerrofluidDivider />
         <Contact />
         <Footer />
       </main>

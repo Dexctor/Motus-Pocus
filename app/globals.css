@@ -230,6 +230,51 @@ body {
   box-shadow: 0 0 40px rgba(139, 92, 246, 0.12);
 }
 
+/* ─── Nav logo glitch hover ─── */
+@keyframes nav-glitch-r {
+  0%   { clip-path: inset(0 0 82% 0);  transform: translateX(3px); }
+  25%  { clip-path: inset(35% 0 45% 0); transform: translateX(-3px); }
+  50%  { clip-path: inset(65% 0 15% 0); transform: translateX(2px); }
+  75%  { clip-path: inset(15% 0 65% 0); transform: translateX(-2px); }
+  100% { clip-path: inset(0 0 82% 0);  transform: translateX(3px); }
+}
+
+@keyframes nav-glitch-b {
+  0%   { clip-path: inset(55% 0 25% 0); transform: translateX(-3px); }
+  25%  { clip-path: inset(80% 0 0% 0);  transform: translateX(2px); }
+  50%  { clip-path: inset(10% 0 75% 0); transform: translateX(-2px); }
+  75%  { clip-path: inset(40% 0 40% 0); transform: translateX(3px); }
+  100% { clip-path: inset(55% 0 25% 0); transform: translateX(-3px); }
+}
+
+.nav-logo { position: relative; }
+
+.nav-logo::before,
+.nav-logo::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0; left: 0;
+  font: inherit;
+  letter-spacing: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.nav-logo::before { color: rgba(255, 40, 40, 0.9); }
+.nav-logo::after  { color: rgba(40, 40, 255, 0.9); }
+
+.nav-logo:hover::before {
+  opacity: 1;
+  animation: nav-glitch-r 0.45s steps(1) infinite;
+}
+
+.nav-logo:hover::after {
+  opacity: 1;
+  animation: nav-glitch-b 0.45s steps(1) infinite;
+  animation-delay: 0.1s;
+}
+
 /* ─── Nav links ─── */
 .nav-links {
   display: flex;

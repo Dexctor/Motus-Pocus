@@ -5,7 +5,7 @@ import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Image from 'next/image'
-import PixelatedTitle from './PixelatedTitle'
+import GlitchTitle from './GlitchTitle'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -133,14 +133,7 @@ export default function Hero() {
 
       {/* Pixelated Canvas Title */}
       <div ref={titleRef} style={{ opacity: 0, marginBottom: '14px' }}>
-        <PixelatedTitle
-          text="Motus Pocus"
-          fontSize={100}
-          cellSize={2}
-          color="#ffffff"
-          distortionRadius={120}
-          distortionStrength={5}
-        />
+        <GlitchTitle text="Motus Pocus" fontSize={100} />
       </div>
 
       {/* Tagline */}
