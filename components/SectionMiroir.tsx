@@ -46,13 +46,18 @@ export default function SectionMiroir() {
 
     const items = sectionRef.current?.querySelectorAll('.miroir-item')
     items?.forEach((item, i) => {
-      gsap.fromTo(item,
-        { opacity: 0, x: reduced ? 0 : -20 },
-        {
-          opacity: 1, x: 0, duration: 0.65, ease: 'power3.out', delay: i * 0.08,
-          scrollTrigger: { trigger: item, start: 'top 89%', toggleActions: 'play none none reverse' },
-        }
-      )
+      if (reduced) {
+        gsap.set(item, { opacity: 1, clipPath: 'inset(0 0 0% 0)', y: 0 })
+      } else {
+        gsap.fromTo(item,
+          { opacity: 0, clipPath: 'inset(0 0 100% 0)', y: 15 },
+          {
+            opacity: 1, clipPath: 'inset(0 0 0% 0)', y: 0,
+            duration: 0.7, ease: 'power3.out', delay: i * 0.07,
+            scrollTrigger: { trigger: item, start: 'top 89%', toggleActions: 'play none none reverse' },
+          }
+        )
+      }
     })
 
     gsap.fromTo('.miroir-conclusion',

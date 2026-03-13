@@ -166,6 +166,40 @@ body::after {
   to   { transform: rotate(360deg); }
 }
 
+/* ─── Holographic border (Offres Scale card) ─── */
+@property --holo-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+@keyframes holo-spin {
+  to { --holo-angle: 360deg; }
+}
+.holo-wrap {
+  position: relative;
+  padding: 2px;
+  border-radius: 16px;
+}
+.holo-wrap::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  background: conic-gradient(
+    from var(--holo-angle),
+    rgba(62,207,142,0.9),
+    rgba(56,189,248,0.9),
+    rgba(167,139,250,0.9),
+    rgba(244,114,182,0.9),
+    rgba(251,146,60,0.9),
+    rgba(62,207,142,0.9)
+  );
+  animation: holo-spin 4s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .holo-wrap::before { animation: none; }
+}
+
 /* ─── Section labels ─── */
 .section-label {
   font-size: 11px;
@@ -468,7 +502,8 @@ body.has-custom-cursor * {
   /* Méthode step */
   .methode-step { padding: 24px 0 !important; }
 
-  /* Buttons full-width on small phones */
+  /* Buttons full-width on small phones — MagneticWrap divs are flex items */
+  .hero-ctas > div { width: 100%; }
   .hero-ctas .moving-border-wrap { width: 100%; }
   .hero-ctas .btn-primary { width: 100%; }
   .hero-cta-contact { width: 100%; justify-content: center; }

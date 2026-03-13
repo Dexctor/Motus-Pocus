@@ -215,19 +215,20 @@ export default function Offres() {
           marginBottom: '32px',
         }}>
           {PACKAGES.map((pkg) => (
+            <div key={pkg.id} className={pkg.popular ? 'holo-wrap' : undefined}>
             <div
-              key={pkg.id}
               className={`pricing-card${pkg.popular ? ' pricing-card-popular' : ''}`}
               style={{
                 opacity: 0,
-                background: pkg.popular ? 'rgba(62,207,142,0.035)' : 'rgba(255,255,255,0.025)',
-                border: `1px solid ${pkg.popular ? 'rgba(62,207,142,0.3)' : 'var(--border-subtle)'}`,
-                borderRadius: '16px',
+                background: pkg.popular ? 'rgba(10,10,10,0.97)' : 'rgba(255,255,255,0.025)',
+                border: pkg.popular ? 'none' : '1px solid var(--border-subtle)',
+                borderRadius: '14px',
                 padding: '28px 26px 26px',
                 position: 'relative',
                 display: 'flex',
                 flexDirection: 'column',
                 transition: 'border-color 0.3s ease, box-shadow 0.3s ease',
+                zIndex: 1,
               }}
               onMouseEnter={(e) => {
                 if (!pkg.popular) {
@@ -310,6 +311,7 @@ export default function Offres() {
                   Démarrer avec {pkg.name}
                 </a>
               </div>
+            </div>
             </div>
           ))}
         </div>

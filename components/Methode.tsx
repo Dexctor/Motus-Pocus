@@ -54,6 +54,18 @@ export default function Methode() {
           scrollTrigger: { trigger: step, start: 'top 89%', toggleActions: 'play none none reverse' },
         }
       )
+      if (!reduced) {
+        const line = (step as HTMLElement).querySelector<HTMLElement>('.methode-line')
+        if (line) {
+          gsap.fromTo(line,
+            { scaleY: 0, transformOrigin: 'top center' },
+            {
+              scaleY: 1, duration: 0.9, ease: 'power2.inOut', delay: i * 0.12 + 0.4,
+              scrollTrigger: { trigger: step, start: 'top 89%', toggleActions: 'play none none reverse' },
+            }
+          )
+        }
+      }
     })
 
     gsap.fromTo('.methode-garantie',
@@ -132,11 +144,11 @@ export default function Methode() {
                   </span>
                 </div>
                 {i < ETAPES.length - 1 && (
-                  <div style={{
+                  <div className="methode-line" style={{
                     width: '1px',
                     height: '100%',
                     minHeight: '40px',
-                    background: 'linear-gradient(to bottom, rgba(62,207,142,0.2), transparent)',
+                    background: 'linear-gradient(to bottom, rgba(62,207,142,0.35), transparent)',
                   }} />
                 )}
               </div>

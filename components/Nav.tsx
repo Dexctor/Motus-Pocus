@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import gsap from 'gsap'
+import MagneticWrap from './MagneticWrap'
 
 const NAV_LINKS = [
   { label: 'Réalisations', href: '#realisations' },
@@ -84,13 +85,15 @@ export default function Nav() {
       </div>
 
       {/* CTA */}
-      <a
-        href="#contact"
-        className="btn-primary"
-        style={{ padding: '8px 18px', fontSize: '12px', flexShrink: 0 }}
-      >
-        Parlons-en
-      </a>
+      <MagneticWrap strength={0.45}>
+        <a
+          href="#contact"
+          className="btn-primary"
+          style={{ padding: '8px 18px', fontSize: '12px', flexShrink: 0 }}
+        >
+          Parlons-en
+        </a>
+      </MagneticWrap>
     </nav>
   )
 }

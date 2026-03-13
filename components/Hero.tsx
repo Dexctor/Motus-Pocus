@@ -3,9 +3,31 @@
 import { useRef, useEffect } from 'react'
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
+import MagneticWrap from './MagneticWrap'
 
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null)
+
+  // ── Parallax: aurora + text at different speeds ──
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    if (window.matchMedia('(hover: none)').matches) return
+    const section = sectionRef.current
+    if (!section) return
+    const auroraEl = section.querySelector<HTMLElement>('.aurora-bg')
+    const textEl = section.querySelector<HTMLElement>('.hero-parallax-text')
+    let raf = 0
+    const onScroll = () => {
+      cancelAnimationFrame(raf)
+      raf = requestAnimationFrame(() => {
+        const y = window.scrollY
+        if (auroraEl) auroraEl.style.transform = `translateY(${y * 0.15}px)`
+        if (textEl) textEl.style.transform = `translateY(${y * -0.05}px)`
+      })
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => { window.removeEventListener('scroll', onScroll); cancelAnimationFrame(raf) }
+  }, [])
 
   // ── Spotlight: mouse → CSS var ──
   useEffect(() => {
@@ -70,15 +92,16 @@ export default function Hero() {
       {/* Spotlight overlay */}
       <div className="spotlight-overlay" aria-hidden />
 
+      <div className="hero-parallax-text" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative', zIndex: 2, willChange: 'transform' }}>
       {/* ── Eyebrow label ── */}
       <p
         className="hero-eyebrow section-label"
-        style={{ opacity: 0, marginBottom: '28px', textAlign: 'center', position: 'relative', zIndex: 2 }}
+        style={{ opacity: 0, marginBottom: '28px', textAlign: 'center' }}
       >
         Montage vidéo · Motion Design · SaaS B2B
       </p>
 
-      <div style={{ textAlign: 'center', maxWidth: '860px', position: 'relative', zIndex: 2 }}>
+      <div style={{ textAlign: 'center', maxWidth: '860px' }}>
         <h1 style={{
           fontWeight: 800,
           fontSize: 'clamp(28px, 5.2vw, 64px)',
@@ -115,6 +138,7 @@ export default function Hero() {
           <span style={{ color: 'var(--accent)', fontWeight: 600 }}>Une vidéo change ça.</span>
         </p>
       </div>
+      </div>{/* end hero-parallax-text */}
 
       {/* ── Showreel video ── */}
       <div
@@ -169,18 +193,22 @@ export default function Hero() {
           position: 'relative', zIndex: 2,
         }}
       >
-        <div className="moving-border-wrap">
-          <div className="moving-border-spinner" aria-hidden />
-          <a href="#realisations" className="btn-primary">
-            Voir ce que ça donne
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-              <path d="M12 5v14M5 12l7 7 7-7"/>
-            </svg>
+        <MagneticWrap strength={0.4}>
+          <div className="moving-border-wrap">
+            <div className="moving-border-spinner" aria-hidden />
+            <a href="#realisations" className="btn-primary">
+              Voir ce que ça donne
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <path d="M12 5v14M5 12l7 7 7-7"/>
+              </svg>
+            </a>
+          </div>
+        </MagneticWrap>
+        <MagneticWrap strength={0.4}>
+          <a href="#contact" className="btn-ghost hero-cta-contact">
+            Lancer la conversation →
           </a>
-        </div>
-        <a href="#contact" className="btn-ghost hero-cta-contact">
-          Lancer la conversation →
-        </a>
+        </MagneticWrap>
       </div>
 
       {/* Scroll hint */}
