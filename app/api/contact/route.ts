@@ -25,7 +25,7 @@ import { NextRequest, NextResponse } from 'next/server'
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
-    const { prenom, email, type, message } = body
+    const { prenom, email, url, type, message } = body
 
     if (!prenom || !email || !message) {
       return NextResponse.json({ error: 'Champs manquants' }, { status: 400 })
@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
     // })
 
     // ── Log de développement (à retirer en prod) ──
-    console.log('Contact form submission:', { prenom, email, type, message })
+    console.log('Contact form submission:', { prenom, email, url, type, message })
 
     return NextResponse.json({ success: true })
   } catch (err) {

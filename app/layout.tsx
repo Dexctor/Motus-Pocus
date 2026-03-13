@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import SmoothScrollProvider from '@/components/SmoothScrollProvider'
+import ScrollProgress from '@/components/ScrollProgress'
+import CustomCursor from '@/components/CustomCursor'
 
 const inter = Inter({
   variable: '--font-inter',
@@ -33,6 +35,8 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body className={`${inter.variable} antialiased`}>
+        <ScrollProgress />
+        <CustomCursor />
         <SmoothScrollProvider>
           {children}
         </SmoothScrollProvider>

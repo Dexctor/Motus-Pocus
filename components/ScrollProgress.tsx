@@ -13,17 +13,17 @@ export default function ScrollProgress() {
     const bar = barRef.current
     if (!bar) return
 
-    gsap.set(bar, { scaleX: 0 })
+    gsap.set(bar, { scaleX: 0, opacity: 0 })
 
     const st = ScrollTrigger.create({
       start: 'top top',
       end: 'bottom bottom',
       onUpdate: (self) => {
-        gsap.to(bar, {
-          scaleX: self.progress,
-          duration: 0.1,
-          ease: 'none',
-        })
+        if (self.progress > 0.01) {
+          gsap.to(bar, { scaleX: self.progress, opacity: 1, duration: 0.08, ease: 'none', overwrite: 'auto' })
+        } else {
+          gsap.to(bar, { opacity: 0, duration: 0.3, overwrite: 'auto' })
+        }
       },
     })
 
@@ -32,27 +32,12 @@ export default function ScrollProgress() {
 
   return (
     <div
+      ref={barRef}
+      className="scroll-progress-bar"
       style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        height: '2px',
-        zIndex: 200,
-        pointerEvents: 'none',
-        background: 'rgba(255,255,255,0.04)',
+        transformOrigin: 'left center',
+        transform: 'scaleX(0)',
       }}
-    >
-      <div
-        ref={barRef}
-        style={{
-          height: '100%',
-          width: '100%',
-          transformOrigin: 'left',
-          background: 'linear-gradient(90deg, var(--accent) 0%, var(--accent-light) 50%, #3B82F6 100%)',
-          boxShadow: '0 0 8px rgba(139, 92, 246, 0.6)',
-        }}
-      />
-    </div>
+    />
   )
 }

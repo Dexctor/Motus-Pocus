@@ -8,26 +8,19 @@ import Image from 'next/image'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const TOOLS = [
-  'After Effects',
-  'Premiere Pro',
-  'Illustrator',
-  'Photoshop',
-]
-
 export default function Apropos() {
   const sectionRef = useRef<HTMLElement>(null)
 
   useGSAP(() => {
-    const els = sectionRef.current?.querySelectorAll('.ap-animate')
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+    const els = sectionRef.current?.querySelectorAll('.ap-item')
     els?.forEach((el, i) => {
       gsap.fromTo(el,
-        { opacity: 0, y: 30 },
+        { opacity: 0, y: reduced ? 0 : 28 },
         {
           opacity: 1, y: 0,
-          duration: 0.8,
-          ease: 'power3.out',
-          delay: i * 0.1,
+          duration: 0.75, ease: 'power3.out', delay: i * 0.1,
           scrollTrigger: {
             trigger: el,
             start: 'top 88%',
@@ -44,44 +37,42 @@ export default function Apropos() {
       id="apropos"
       className="section-pad"
       style={{
-        position: 'relative',
-        zIndex: 10,
+        position: 'relative', zIndex: 10,
         padding: '96px 40px 100px',
         borderTop: '1px solid var(--border-subtle)',
       }}
     >
       <div
         style={{
-          maxWidth: '1100px',
-          margin: '0 auto',
+          maxWidth: '1100px', margin: '0 auto',
           display: 'grid',
           gridTemplateColumns: 'auto 1fr',
           gap: '64px',
-          alignItems: 'center',
+          alignItems: 'start',
         }}
       >
         {/* Portrait */}
-        <div
-          className="ap-animate"
-          style={{
-            opacity: 0,
-            flexShrink: 0,
-          }}
-        >
+        <div className="ap-item" style={{ opacity: 0, flexShrink: 0 }}>
           <div
             style={{
-              width: '160px',
-              height: '160px',
-              borderRadius: '50%',
-              overflow: 'hidden',
-              border: '2px solid rgba(62,207,142,0.2)',
-              boxShadow: '0 0 40px rgba(62,207,142,0.08)',
+              width: '160px', height: '160px', borderRadius: '14px', overflow: 'hidden',
+              border: '1px solid rgba(62,207,142,0.15)',
+              boxShadow: '0 0 40px rgba(62,207,142,0.06)',
               position: 'relative',
+              transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+            }}
+            onMouseEnter={(e) => {
+              ;(e.currentTarget as HTMLDivElement).style.transform = 'scale(1.02)'
+              ;(e.currentTarget as HTMLDivElement).style.boxShadow = '0 0 60px rgba(62,207,142,0.12)'
+            }}
+            onMouseLeave={(e) => {
+              ;(e.currentTarget as HTMLDivElement).style.transform = 'scale(1)'
+              ;(e.currentTarget as HTMLDivElement).style.boxShadow = '0 0 40px rgba(62,207,142,0.06)'
             }}
           >
             <Image
               src="/portrait.png"
-              alt="Gaël — Motus Pocus, motion designer SaaS B2B"
+              alt="Gaël — Motion designer SaaS B2B"
               fill
               style={{ objectFit: 'cover' }}
               priority
@@ -91,67 +82,76 @@ export default function Apropos() {
 
         {/* Text */}
         <div>
-          <p className="ap-animate section-label" style={{ opacity: 0, marginBottom: '16px' }}>
-            03 — À propos
+          <p className="ap-item section-label" style={{ opacity: 0, marginBottom: '16px' }}>
+            À propos
           </p>
 
+          {/* Positionnement — fait, pas bio */}
           <h2
-            className="ap-animate"
+            className="ap-item"
             style={{
               opacity: 0,
               fontWeight: 800,
               fontSize: 'clamp(22px, 3.5vw, 34px)',
-              letterSpacing: '-0.03em',
-              lineHeight: 1.15,
-              color: '#fff',
+              letterSpacing: '-0.03em', lineHeight: 1.12, color: '#fff',
               marginBottom: '20px',
             }}
           >
-            Je m'appelle Gaël.
+            Je transforme des produits SaaS complexes en vidéos que les décideurs comprennent{' '}
+            <span style={{ color: 'var(--accent)' }}>en 90 secondes.</span>
           </h2>
 
-          <div
-            className="ap-animate"
+          {/* Pourquoi humain — 2 phrases */}
+          <p
+            className="ap-item"
             style={{
               opacity: 0,
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '12px',
-              marginBottom: '28px',
+              fontSize: '15px', color: 'var(--text-muted)', lineHeight: 1.7,
+              marginBottom: '28px', maxWidth: '500px',
             }}
           >
-            <p style={{ fontSize: '15px', color: 'var(--text-muted)', lineHeight: 1.65 }}>
-              Je crée des vidéos motion design pour les <strong style={{ color: 'rgba(255,255,255,0.8)' }}>SaaS B2B</strong> qui veulent être compris en moins de 90 secondes.
-            </p>
-            <p style={{ fontSize: '15px', color: 'var(--text-muted)', lineHeight: 1.65 }}>
-              Je travaille en solo, du script à la livraison — sans intermédiaire, avec une vraie attention au produit de mon client.
-            </p>
-            <p style={{ fontSize: '15px', color: 'var(--text-muted)', lineHeight: 1.65 }}>
-              Mon objectif : que votre visiteur comprenne votre valeur avant même de lire votre landing page.
-            </p>
+            J'ai vu trop de bons produits disparaître parce qu'ils n'arrivaient pas à se montrer.
+            Ce métier, je le fais pour que ça ne soit plus une raison d'échouer.
+          </p>
+
+          {/* Signal de crédibilité */}
+          <div className="ap-item" style={{ opacity: 0, marginBottom: '32px' }}>
+            <div style={{
+              display: 'inline-flex', alignItems: 'center', gap: '10px',
+              padding: '10px 16px', borderRadius: '8px',
+              background: 'rgba(255,255,255,0.025)',
+              border: '1px solid var(--border-subtle)',
+            }}>
+              <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.55)', lineHeight: 1.5 }}>
+                <strong style={{ color: 'rgba(255,255,255,0.8)' }}>After Effects</strong>
+                {' '}— chaque transition sert la compréhension, pas le spectacle.
+              </span>
+            </div>
           </div>
 
-          {/* Outils */}
-          <div className="ap-animate" style={{ opacity: 0 }}>
-            <p style={{ fontSize: '11px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.25)', marginBottom: '12px' }}>
-              Outils maîtrisés
+          {/* CTA discret */}
+          <div className="ap-item" style={{ opacity: 0 }}>
+            <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: '12px' }}>
+              Vous voulez voir comment je travaille concrètement ?
             </p>
-            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-              {TOOLS.map((tool) => (
-                <span key={tool} className="tool-badge">{tool}</span>
-              ))}
-            </div>
+            <a
+              href="#realisations"
+              className="btn-ghost"
+              style={{ padding: '9px 20px', fontSize: '13px' }}
+            >
+              Voir les réalisations
+            </a>
           </div>
         </div>
       </div>
 
-      {/* Mobile: stack portrait + text */}
       <style>{`
         @media (max-width: 640px) {
           #apropos > div {
             grid-template-columns: 1fr !important;
-            gap: 32px !important;
+            gap: 28px !important;
           }
+          #apropos { padding: 72px 20px 80px !important; }
         }
       `}</style>
     </section>
