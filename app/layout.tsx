@@ -2,19 +2,27 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import SmoothScrollProvider from '@/components/SmoothScrollProvider'
-import CustomCursor from '@/components/CustomCursor'
-import ScrollProgress from '@/components/ScrollProgress'
 
 const inter = Inter({
   variable: '--font-inter',
   subsets: ['latin'],
   weight: ['300', '400', '500', '600', '700', '800'],
+  display: 'swap',
 })
 
 export const metadata: Metadata = {
-  title: 'Motus Pocus — Video Editor · Motion Design · Sound Design',
+  title: 'Motus Pocus — Motion Design SaaS B2B',
   description:
-    'Portfolio de montage vidéo, motion design et sound design. Animations fines, motion design précis et sound design qualitatif.',
+    'Je crée des vidéos qui révèlent la valeur de votre SaaS en 90 secondes. Motion design B2B : vidéos de conversion, onboarding et publicité.',
+  metadataBase: new URL('https://motuspocus.fr'),
+  openGraph: {
+    title: 'Motus Pocus — Motion Design SaaS B2B',
+    description: 'Je crée des vidéos qui révèlent la valeur de votre SaaS en 90 secondes.',
+    url: 'https://motuspocus.fr',
+    siteName: 'Motus Pocus',
+    locale: 'fr_FR',
+    type: 'website',
+  },
 }
 
 export default function RootLayout({
@@ -25,8 +33,6 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body className={`${inter.variable} antialiased`}>
-        <CustomCursor />
-        <ScrollProgress />
         <SmoothScrollProvider>
           {children}
         </SmoothScrollProvider>
