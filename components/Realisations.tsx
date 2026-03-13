@@ -363,6 +363,32 @@ export default function Realisations() {
         }}>
           Projets marqués « fictif » : concepts réalisés pour illustrer des problématiques SaaS réelles.
         </p>
+
+        {/* CTA post-proof */}
+        <div style={{
+          marginTop: '56px',
+          padding: '40px 32px',
+          borderRadius: '16px',
+          background: 'rgba(62,207,142,0.03)',
+          border: '1px solid rgba(62,207,142,0.1)',
+          textAlign: 'center',
+        }}>
+          <p style={{
+            fontSize: 'clamp(16px, 2vw, 18px)',
+            fontWeight: 600,
+            color: '#fff',
+            letterSpacing: '-0.02em',
+            marginBottom: '8px',
+          }}>
+            Votre produit mérite le même traitement.
+          </p>
+          <p style={{ fontSize: '14px', color: 'var(--text-muted)', marginBottom: '28px' }}>
+            Un brief de 15 minutes suffit pour savoir si je peux vous aider.
+          </p>
+          <a href="#contact" className="btn-primary" style={{ display: 'inline-flex' }}>
+            Discutons de votre projet →
+          </a>
+        </div>
       </div>
 
       <style>{`

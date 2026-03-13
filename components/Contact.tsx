@@ -10,10 +10,17 @@ gsap.registerPlugin(ScrollTrigger)
 
 type FormState = 'idle' | 'loading' | 'success' | 'error'
 
+const NEXT_STEPS = [
+  { num: '01', label: 'Vous remplissez le formulaire' },
+  { num: '02', label: 'Je réponds sous 24h — pas un bot' },
+  { num: '03', label: "On décide ensemble si c'est aligné" },
+]
+
 export default function Contact() {
   const sectionRef = useRef<HTMLElement>(null)
   const [formState, setFormState] = useState<FormState>('idle')
-  const [fields, setFields] = useState({ prenom: '', email: '', url: '', type: '', message: '' })
+  const [step, setStep] = useState<1 | 2>(1)
+  const [fields, setFields] = useState({ prenom: '', email: '', url: '', type: '', message: '', _trap: '' })
 
   useGSAP(() => {
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -33,6 +40,11 @@ export default function Contact() {
     setFields((p) => ({ ...p, [e.target.name]: e.target.value }))
   }
 
+  const handleStep1 = (e: React.FormEvent) => {
+    e.preventDefault()
+    setStep(2)
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setFormState('loading')
@@ -44,7 +56,8 @@ export default function Contact() {
       })
       if (!res.ok) throw new Error()
       setFormState('success')
-      setFields({ prenom: '', email: '', url: '', type: '', message: '' })
+      setFields({ prenom: '', email: '', url: '', type: '', message: '', _trap: '' })
+      setStep(1)
     } catch {
       setFormState('error')
     }
@@ -62,13 +75,13 @@ export default function Contact() {
         overflow: 'hidden',
       }}
     >
-      {/* Soft background glow */}
+      {/* Stronger glow — this section is the destination */}
       <div style={{
-        position: 'absolute', top: '-80px', left: '50%',
+        position: 'absolute', top: '-60px', left: '50%',
         transform: 'translateX(-50%)',
-        width: '600px', height: '500px', borderRadius: '50%',
-        background: 'radial-gradient(circle, rgba(62,207,142,0.05) 0%, transparent 70%)',
-        filter: 'blur(80px)', pointerEvents: 'none',
+        width: '900px', height: '600px', borderRadius: '50%',
+        background: 'radial-gradient(circle, rgba(62,207,142,0.07) 0%, transparent 65%)',
+        filter: 'blur(100px)', pointerEvents: 'none',
       }} />
 
       <div style={{
@@ -102,11 +115,55 @@ export default function Contact() {
             style={{
               opacity: 0,
               fontSize: '15px', color: 'var(--text-muted)', lineHeight: 1.65,
-              marginBottom: '36px', maxWidth: '360px',
+              marginBottom: '32px', maxWidth: '360px',
             }}
           >
             Réponse sous <strong style={{ color: 'rgba(255,255,255,0.7)' }}>24h</strong>. Aucun engagement.
           </p>
+
+          {/* Availability signal */}
+          <div className="ct-item" style={{ opacity: 0, marginBottom: '32px' }}>
+            <div style={{
+              display: 'inline-flex', alignItems: 'center', gap: '8px',
+              padding: '8px 14px', borderRadius: '8px',
+              background: 'rgba(62,207,142,0.06)',
+              border: '1px solid rgba(62,207,142,0.18)',
+            }}>
+              <span style={{
+                width: '7px', height: '7px', borderRadius: '50%',
+                background: 'var(--accent)',
+                boxShadow: '0 0 8px rgba(62,207,142,0.6)',
+                flexShrink: 0,
+                display: 'inline-block',
+              }} />
+              <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.65)', fontWeight: 500 }}>
+                Disponible pour un projet en avril 2026
+              </span>
+            </div>
+          </div>
+
+          {/* What happens next */}
+          <div className="ct-item" style={{ opacity: 0, marginBottom: '36px' }}>
+            <p style={{
+              fontSize: '11px', fontWeight: 600, letterSpacing: '0.12em',
+              textTransform: 'uppercase', color: 'rgba(255,255,255,0.22)', marginBottom: '16px',
+            }}>
+              Ce qui se passe ensuite
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              {NEXT_STEPS.map((s) => (
+                <div key={s.num} style={{ display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
+                  <span style={{
+                    fontSize: '10px', fontWeight: 700, color: 'rgba(62,207,142,0.5)',
+                    letterSpacing: '0.08em', paddingTop: '2px', flexShrink: 0,
+                  }}>{s.num}</span>
+                  <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.55)', lineHeight: 1.5 }}>
+                    {s.label}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
 
           {/* Email direct */}
           <div className="ct-item" style={{ opacity: 0, marginBottom: '22px' }}>
@@ -156,7 +213,7 @@ export default function Contact() {
         {/* ── RIGHT: Form ── */}
         <div className="ct-item" style={{ opacity: 0 }}>
           {formState === 'success' ? (
-            <div style={{
+            <div className="ct-success" style={{
               padding: '48px 32px', borderRadius: '16px',
               background: 'rgba(62,207,142,0.05)',
               border: '1px solid rgba(62,207,142,0.18)',
@@ -180,105 +237,202 @@ export default function Contact() {
               </p>
             </div>
           ) : (
-            <form
-              onSubmit={handleSubmit}
-              style={{
-                display: 'flex', flexDirection: 'column', gap: '14px',
-                background: 'rgba(255,255,255,0.025)',
-                border: '1px solid var(--border-subtle)',
-                borderRadius: '16px', padding: '28px 26px',
-              }}
-            >
-              {/* Prénom + email */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-                <div>
-                  <label style={{ display: 'block', fontSize: '12px', color: 'rgba(255,255,255,0.38)', marginBottom: '6px', fontWeight: 500 }}>
-                    Prénom *
-                  </label>
+            <div style={{
+              background: 'rgba(255,255,255,0.03)',
+              border: '1px solid rgba(255,255,255,0.1)',
+              borderRadius: '16px', padding: '28px 26px',
+              boxShadow: '0 0 60px rgba(0,0,0,0.3)',
+            }}>
+              {/* Progress indicator */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '24px' }}>
+                {[1, 2].map((n) => (
+                  <div key={n} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <div style={{
+                      width: '26px', height: '26px', borderRadius: '50%',
+                      border: `1.5px solid ${step >= n ? 'var(--accent)' : 'rgba(255,255,255,0.1)'}`,
+                      background: step > n ? 'rgba(62,207,142,0.15)' : step === n ? 'rgba(62,207,142,0.08)' : 'transparent',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      transition: 'all 0.3s ease',
+                    }}>
+                      {step > n ? (
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
+                          <path d="M20 6L9 17l-5-5" stroke="var(--accent)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      ) : (
+                        <span style={{ fontSize: '11px', fontWeight: 700, color: step === n ? 'var(--accent)' : 'rgba(255,255,255,0.2)' }}>
+                          {n}
+                        </span>
+                      )}
+                    </div>
+                    <span style={{
+                      fontSize: '12px', color: step === n ? 'rgba(255,255,255,0.6)' : 'rgba(255,255,255,0.25)',
+                      fontWeight: step === n ? 500 : 400,
+                      transition: 'color 0.3s ease',
+                    }}>
+                      {n === 1 ? 'Vos coordonnées' : 'Votre projet'}
+                    </span>
+                    {n < 2 && (
+                      <div style={{
+                        width: '24px', height: '1px',
+                        background: step > 1 ? 'rgba(62,207,142,0.3)' : 'rgba(255,255,255,0.1)',
+                        transition: 'background 0.3s ease',
+                      }} />
+                    )}
+                  </div>
+                ))}
+              </div>
+
+              {/* Step 1 */}
+              {step === 1 && (
+                <form onSubmit={handleStep1} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                  {/* Honeypot — hidden from humans, bots fill it */}
                   <input
-                    type="text" name="prenom" required
-                    value={fields.prenom} onChange={handleChange}
-                    placeholder="Thomas"
-                    className="form-input"
+                    type="text"
+                    name="_trap"
+                    value={fields._trap}
+                    onChange={handleChange}
+                    tabIndex={-1}
+                    aria-hidden="true"
+                    style={{ position: 'absolute', left: '-9999px', opacity: 0, height: 0 }}
+                    autoComplete="off"
                   />
-                </div>
-                <div>
-                  <label style={{ display: 'block', fontSize: '12px', color: 'rgba(255,255,255,0.38)', marginBottom: '6px', fontWeight: 500 }}>
-                    Email *
-                  </label>
-                  <input
-                    type="email" name="email" required
-                    value={fields.email} onChange={handleChange}
-                    placeholder="thomas@monsaas.io"
-                    className="form-input"
-                  />
-                </div>
-              </div>
 
-              {/* URL du site */}
-              <div>
-                <label style={{ display: 'block', fontSize: '12px', color: 'rgba(255,255,255,0.38)', marginBottom: '6px', fontWeight: 500 }}>
-                  URL de votre site
-                </label>
-                <input
-                  type="url" name="url"
-                  value={fields.url} onChange={handleChange}
-                  placeholder="https://monsaas.io"
-                  className="form-input"
-                />
-              </div>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '12px', color: 'rgba(255,255,255,0.38)', marginBottom: '6px', fontWeight: 500 }}>
+                      Prénom *
+                    </label>
+                    <input
+                      type="text" name="prenom" required
+                      value={fields.prenom} onChange={handleChange}
+                      placeholder="Thomas"
+                      className="form-input"
+                      autoFocus
+                    />
+                  </div>
 
-              {/* Type de projet — custom dropdown */}
-              <div>
-                <label style={{ display: 'block', fontSize: '12px', color: 'rgba(255,255,255,0.38)', marginBottom: '6px', fontWeight: 500 }}>
-                  Type de projet *
-                </label>
-                <CustomSelect
-                  value={fields.type}
-                  onChange={(v) => setFields((p) => ({ ...p, type: v }))}
-                  required
-                />
-              </div>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '12px', color: 'rgba(255,255,255,0.38)', marginBottom: '6px', fontWeight: 500 }}>
+                      Email *
+                    </label>
+                    <input
+                      type="email" name="email" required
+                      value={fields.email} onChange={handleChange}
+                      placeholder="thomas@monsaas.io"
+                      className="form-input"
+                    />
+                  </div>
 
-              {/* Message */}
-              <div>
-                <label style={{ display: 'block', fontSize: '12px', color: 'rgba(255,255,255,0.38)', marginBottom: '6px', fontWeight: 500 }}>
-                  Contexte du projet *
-                </label>
-                <textarea
-                  name="message" required
-                  value={fields.message} onChange={handleChange}
-                  placeholder="Décrivez votre SaaS, ce que vos visiteurs ne comprennent pas assez vite, et ce que vous cherchez à obtenir…"
-                  rows={5}
-                  className="form-input"
-                  style={{ resize: 'vertical', minHeight: '110px' }}
-                />
-              </div>
+                  <button
+                    type="submit"
+                    className="btn-primary"
+                    style={{
+                      width: '100%', justifyContent: 'center',
+                      padding: '16px 24px', fontSize: '15px', fontWeight: 700,
+                      marginTop: '4px',
+                      boxShadow: '0 4px 24px rgba(62,207,142,0.25)',
+                    }}
+                  >
+                    Continuer →
+                  </button>
 
-              {formState === 'error' && (
-                <p style={{ fontSize: '13px', color: '#ff6b6b' }}>
-                  Une erreur est survenue. Écrivez-moi directement à motuspocus.lab@gmail.com
-                </p>
+                  <p style={{ fontSize: '11px', color: 'rgba(255,255,255,0.18)', textAlign: 'center' }}>
+                    Aucun spam · Réponse sous 24h
+                  </p>
+                </form>
               )}
 
-              {/* ── Submit (Made to Stick: action claire) ── */}
-              <button
-                type="submit"
-                disabled={formState === 'loading'}
-                className="btn-primary"
-                style={{
-                  width: '100%', justifyContent: 'center',
-                  opacity: formState === 'loading' ? 0.6 : 1,
-                  cursor: formState === 'loading' ? 'not-allowed' : 'pointer',
-                }}
-              >
-                {formState === 'loading' ? 'Envoi en cours…' : 'Lancer la conversation →'}
-              </button>
+              {/* Step 2 */}
+              {step === 2 && (
+                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                  {/* URL du site */}
+                  <div>
+                    <label style={{ display: 'block', fontSize: '12px', color: 'rgba(255,255,255,0.38)', marginBottom: '6px', fontWeight: 500 }}>
+                      URL de votre site
+                    </label>
+                    <input
+                      type="url" name="url"
+                      value={fields.url} onChange={handleChange}
+                      placeholder="https://monsaas.io"
+                      className="form-input"
+                      autoFocus
+                    />
+                  </div>
 
-              <p style={{ fontSize: '11px', color: 'rgba(255,255,255,0.18)', textAlign: 'center' }}>
-                Réponse sous 24h · Pas de spam · Pas de Calendly imposé
-              </p>
-            </form>
+                  {/* Type de projet */}
+                  <div>
+                    <label style={{ display: 'block', fontSize: '12px', color: 'rgba(255,255,255,0.38)', marginBottom: '6px', fontWeight: 500 }}>
+                      Type de projet *
+                    </label>
+                    <CustomSelect
+                      value={fields.type}
+                      onChange={(v) => setFields((p) => ({ ...p, type: v }))}
+                      required
+                    />
+                  </div>
+
+                  {/* Message */}
+                  <div>
+                    <label style={{ display: 'block', fontSize: '12px', color: 'rgba(255,255,255,0.38)', marginBottom: '6px', fontWeight: 500 }}>
+                      Contexte du projet *
+                    </label>
+                    <textarea
+                      name="message" required
+                      value={fields.message} onChange={handleChange}
+                      placeholder="Décrivez votre SaaS, ce que vos visiteurs ne comprennent pas assez vite, et ce que vous cherchez à obtenir…"
+                      rows={4}
+                      className="form-input"
+                      style={{ resize: 'vertical', minHeight: '100px' }}
+                    />
+                  </div>
+
+                  {formState === 'error' && (
+                    <p style={{ fontSize: '13px', color: '#ff6b6b' }}>
+                      Une erreur est survenue. Écrivez-moi directement à motuspocus.lab@gmail.com
+                    </p>
+                  )}
+
+                  <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.28)', textAlign: 'center', marginBottom: '-4px' }}>
+                    Je lis chaque message personnellement.
+                  </p>
+
+                  <button
+                    type="submit"
+                    disabled={formState === 'loading'}
+                    className="btn-primary"
+                    style={{
+                      width: '100%', justifyContent: 'center',
+                      padding: '16px 24px', fontSize: '15px', fontWeight: 700,
+                      opacity: formState === 'loading' ? 0.6 : 1,
+                      cursor: formState === 'loading' ? 'not-allowed' : 'pointer',
+                      boxShadow: formState !== 'loading' ? '0 4px 24px rgba(62,207,142,0.25)' : 'none',
+                    }}
+                  >
+                    {formState === 'loading' ? 'Envoi en cours…' : 'Lancer la conversation →'}
+                  </button>
+
+                  <p style={{ fontSize: '11px', color: 'rgba(255,255,255,0.18)', textAlign: 'center' }}>
+                    Pas de Calendly imposé · Pas de spam
+                  </p>
+
+                  {/* Back link */}
+                  <button
+                    type="button"
+                    onClick={() => setStep(1)}
+                    style={{
+                      background: 'none', border: 'none', cursor: 'pointer',
+                      fontSize: '12px', color: 'rgba(255,255,255,0.28)',
+                      fontFamily: 'inherit', textAlign: 'center',
+                      transition: 'color 0.2s',
+                      marginTop: '-4px',
+                    }}
+                    onMouseEnter={(e) => (e.currentTarget.style.color = 'rgba(255,255,255,0.6)')}
+                    onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(255,255,255,0.28)')}
+                  >
+                    ← Modifier mes coordonnées
+                  </button>
+                </form>
+              )}
+            </div>
           )}
         </div>
       </div>
@@ -287,9 +441,6 @@ export default function Contact() {
         @media (max-width: 768px) {
           #contact > div > div { grid-template-columns: 1fr !important; gap: 40px !important; }
           #contact { padding: 72px 20px 80px !important; }
-        }
-        @media (max-width: 400px) {
-          #contact form > div:first-child { grid-template-columns: 1fr !important; }
         }
       `}</style>
     </section>

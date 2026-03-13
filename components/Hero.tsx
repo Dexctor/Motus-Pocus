@@ -75,7 +75,7 @@ export default function Hero() {
         className="hero-eyebrow section-label"
         style={{ opacity: 0, marginBottom: '28px', textAlign: 'center', position: 'relative', zIndex: 2 }}
       >
-        Motion Design · SaaS B2B
+        Montage vidéo · Motion Design · SaaS B2B
       </p>
 
       <div style={{ textAlign: 'center', maxWidth: '860px', position: 'relative', zIndex: 2 }}>
@@ -178,6 +178,9 @@ export default function Hero() {
             </svg>
           </a>
         </div>
+        <a href="#contact" className="btn-ghost hero-cta-contact">
+          Lancer la conversation →
+        </a>
       </div>
 
       {/* Scroll hint */}

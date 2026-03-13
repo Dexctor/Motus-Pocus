@@ -39,9 +39,9 @@ export default function Nav() {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        background: scrolled ? 'rgba(12, 12, 12, 0.88)' : 'rgba(12, 12, 12, 0.6)',
-        backdropFilter: 'blur(20px) saturate(1.4)',
-        border: `1px solid ${scrolled ? 'rgba(255,255,255,0.09)' : 'rgba(255,255,255,0.06)'}`,
+        background: scrolled ? 'rgba(6, 6, 6, 0.92)' : 'rgba(6, 6, 6, 0.65)',
+        backdropFilter: 'blur(24px) saturate(1.8)',
+        border: `1px solid ${scrolled ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.07)'}`,
         borderRadius: '12px',
         transition: 'background 0.3s ease, border-color 0.3s ease',
       }}

@@ -123,8 +123,8 @@ export default function Apropos() {
               border: '1px solid var(--border-subtle)',
             }}>
               <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.55)', lineHeight: 1.5 }}>
-                <strong style={{ color: 'rgba(255,255,255,0.8)' }}>After Effects</strong>
-                {' '}— chaque transition sert la compréhension, pas le spectacle.
+                <strong style={{ color: 'rgba(255,255,255,0.8)' }}>Montage & Motion Design</strong>
+                {' '}— chaque seconde sert la compréhension, pas le spectacle.
               </span>
             </div>
           </div>

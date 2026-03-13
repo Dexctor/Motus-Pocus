@@ -218,6 +218,19 @@ export default function Methode() {
             Pas de surprise.
           </p>
         </div>
+
+        {/* CTA */}
+        <div
+          className="methode-garantie"
+          style={{
+            opacity: 0,
+            marginTop: '36px',
+          }}
+        >
+          <a href="#contact" className="btn-primary">
+            Démarrer un projet →
+          </a>
+        </div>
       </div>
 
       <style>{`
