@@ -11,8 +11,8 @@ export default function MagneticWrap({
   strength?: number
 }) {
   const ref = useRef<HTMLDivElement>(null)
-  const qx = useRef<ReturnType<typeof gsap.quickTo>>()
-  const qy = useRef<ReturnType<typeof gsap.quickTo>>()
+  const qx = useRef<ReturnType<typeof gsap.quickTo>>(null)
+  const qy = useRef<ReturnType<typeof gsap.quickTo>>(null)
 
   const onEnter = useCallback(() => {
     if (typeof window === 'undefined') return

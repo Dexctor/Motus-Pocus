@@ -74,10 +74,10 @@ export default function Mecanique() {
           </p>
           <h2 style={{
             opacity: 0,
-            fontWeight: 800, fontSize: 'clamp(26px, 4vw, 42px)',
+            fontWeight: 700, fontSize: 'clamp(26px, 4vw, 42px)',
             letterSpacing: '-0.03em', lineHeight: 1.1, color: '#fff', marginBottom: '16px',
           }}>
-            Ce n'est pas un problème de produit.
+            Une vidéo de 90 secondes fait ce que 10 pages de docs ne font pas.
           </h2>
           <p style={{
             opacity: 0,
@@ -164,6 +164,13 @@ export default function Mecanique() {
         }}>
           Sources : Wyzowl Video Marketing Statistics 2024 · Nielsen Norman Group
         </p>
+
+        {/* CTA vers contact */}
+        <div style={{ marginTop: '36px' }}>
+          <a href="#contact" className="btn-primary" style={{ display: 'inline-flex' }}>
+            Lancer ma vidéo SaaS →
+          </a>
+        </div>
       </div>
 
       <style>{`

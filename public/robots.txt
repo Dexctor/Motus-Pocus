@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://motuspocus.fr/sitemap.xml

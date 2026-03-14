@@ -91,7 +91,7 @@ export default function Nav() {
           className="btn-primary"
           style={{ padding: '8px 18px', fontSize: '12px', flexShrink: 0 }}
         >
-          Parlons-en
+          Ma vidéo SaaS →
         </a>
       </MagneticWrap>
     </nav>

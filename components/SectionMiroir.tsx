@@ -85,11 +85,11 @@ export default function SectionMiroir() {
         {/* Header */}
         <div className="miroir-header" style={{ marginBottom: '56px', maxWidth: '680px' }}>
           <p className="section-label" style={{ opacity: 0, marginBottom: '16px' }}>
-            Ce qu'on observe
+            01 — Ce qu'on observe
           </p>
           <h2 style={{
             opacity: 0,
-            fontWeight: 800, fontSize: 'clamp(26px, 4vw, 42px)',
+            fontWeight: 700, fontSize: 'clamp(26px, 4vw, 42px)',
             letterSpacing: '-0.03em', lineHeight: 1.1, color: '#fff', marginBottom: '16px',
           }}>
             Sur la plupart des SaaS B2B.
@@ -161,9 +161,22 @@ export default function SectionMiroir() {
             lineHeight: 1.5,
             letterSpacing: '-0.015em',
           }}>
-            Pas un problème de budget.{' '}
-            <span style={{ color: 'var(--text-muted)', fontWeight: 500 }}>Un problème de clarté.</span>
+            La clarté visuelle résout 80% de ces problèmes{' '}
+            <span style={{ color: 'var(--text-muted)', fontWeight: 500 }}>— sans toucher au produit.</span>
           </p>
+        </div>
+
+        {/* CTA vers contact */}
+        <div
+          className="miroir-conclusion"
+          style={{
+            opacity: 0,
+            marginTop: '28px',
+          }}
+        >
+          <a href="#contact" className="btn-primary" style={{ display: 'inline-flex' }}>
+            Obtenir le même résultat →
+          </a>
         </div>
       </div>
 

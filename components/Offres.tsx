@@ -308,7 +308,7 @@ export default function Offres() {
                   className={pkg.popular ? 'btn-primary' : 'btn-ghost'}
                   style={{ width: '100%', textAlign: 'center', display: 'flex', justifyContent: 'center' }}
                 >
-                  Démarrer avec {pkg.name}
+                  Recevoir un devis {pkg.name} →
                 </a>
               </div>
             </div>

@@ -2,18 +2,22 @@
 
 /* ─── Design Tokens ─── */
 :root {
-  --bg: #080808;
-  --bg-surface: #0e0e0e;
-  --bg-elevated: #131313;
+  --bg: #0a0a0a;
+  --bg-surface: #141414;
+  --bg-elevated: #1a1a1a;
   --fg: #ffffff;
   --accent: #3ecf8e;
   --accent-dark: #2ab577;
   --accent-glow: rgba(62, 207, 142, 0.14);
+  --text-primary: rgba(255, 255, 255, 0.92);
+  --text-secondary: rgba(255, 255, 255, 0.60);
   --text-muted: rgba(255, 255, 255, 0.42);
-  --text-dim: rgba(255, 255, 255, 0.16);
+  --text-dim: rgba(255, 255, 255, 0.28);
   --border-subtle: rgba(255, 255, 255, 0.08);
   --border-strong: rgba(255, 255, 255, 0.12);
   --card-bg: rgba(255, 255, 255, 0.025);
+  --card-pad: 32px;
+  --danger: #ff6b6b;
 }
 
 @theme inline {
@@ -104,8 +108,22 @@ body::after {
 }
 .btn-primary:hover {
   background: var(--accent-dark);
-  transform: translateY(-1px);
-  box-shadow: 0 6px 24px rgba(62,207,142,0.22), 0 0 0 1px rgba(62,207,142,0.25);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(62,207,142,0.22), 0 0 0 1px rgba(62,207,142,0.25);
+}
+.btn-primary:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(62,207,142,0.15);
+}
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+.btn-primary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 /* ─── Ghost Button ─── */
@@ -132,7 +150,19 @@ body::after {
   border-color: var(--border-strong);
   color: rgba(255,255,255,0.85);
   background: rgba(255,255,255,0.05);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+}
+.btn-ghost:active {
+  transform: translateY(0);
+}
+.btn-ghost:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+.btn-ghost:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 /* ─── Moving Border Wrapper (Aceternity Moving Border) ─── */
@@ -250,6 +280,17 @@ body::after {
   transition: transform 0.18s ease-out, box-shadow 0.25s ease;
 }
 
+/* ─── Card hover depth (réf. Emil Kowalski — translateY -4px + shadow) ─── */
+.meca-card,
+.pricing-card-wrap {
+  transition: transform 0.2s ease-out, box-shadow 0.3s ease;
+}
+.meca-card:hover,
+.pricing-card-wrap:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.06);
+}
+
 /* ─── Pricing card highlighted ─── */
 .pricing-card-popular {
   border-color: rgba(62, 207, 142, 0.3) !important;
@@ -281,6 +322,10 @@ body::after {
   border-color: rgba(62, 207, 142, 0.35);
   box-shadow: 0 0 0 3px rgba(62,207,142,0.06);
   background: rgba(0,0,0,0.4);
+}
+.form-input.error {
+  border-color: var(--danger);
+  box-shadow: 0 0 0 3px rgba(255,107,107,0.08);
 }
 
 /* ─── Aurora Background Blobs (Aceternity Aurora) ─── */
@@ -387,7 +432,7 @@ body.has-custom-cursor * {
 }
 .cursor-ring {
   position: fixed;
-  width: 36px;
+  width: 38px;
   height: 36px;
   border: 1.5px solid rgba(62,207,142,0.45);
   border-radius: 50%;

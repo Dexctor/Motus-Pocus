@@ -10,21 +10,21 @@ gsap.registerPlugin(ScrollTrigger)
 const ETAPES = [
   {
     num: '01',
-    titre: 'Brief stratégique',
+    titre: 'Angle validé avant la première image',
     duree: '2–3 jours',
     corps: 'On aligne l\'angle avant d\'écrire une ligne de script.',
     livrable: 'Angle validé + script approuvé',
   },
   {
     num: '02',
-    titre: 'Production',
+    titre: 'V1 complète en main, pas un brouillon',
     duree: 'Selon le package',
     corps: 'Vous recevez une V1 complète — pas un brouillon.',
     livrable: 'V1 livrée via lien de revue privé',
   },
   {
     num: '03',
-    titre: 'Livraison',
+    titre: 'Fichiers finaux prêts à publier',
     duree: 'J livraison',
     corps: 'Fichiers finaux dans tous les formats utiles. Vous publiez le jour J.',
     livrable: 'Fichiers + guide d\'intégration',
@@ -97,7 +97,7 @@ export default function Methode() {
           </p>
           <h2 style={{
             opacity: 0,
-            fontWeight: 800, fontSize: 'clamp(26px, 4vw, 42px)',
+            fontWeight: 700, fontSize: 'clamp(26px, 4vw, 42px)',
             letterSpacing: '-0.03em', lineHeight: 1.1, color: '#fff', marginBottom: '16px',
           }}>
             Comment ça se passe, concrètement.
@@ -240,7 +240,7 @@ export default function Methode() {
           }}
         >
           <a href="#contact" className="btn-primary">
-            Démarrer un projet →
+            Démarrer avec un brief →
           </a>
         </div>
       </div>

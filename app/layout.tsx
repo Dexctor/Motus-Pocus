@@ -14,13 +14,13 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: 'Motus Pocus — Montage Vidéo & Motion Design SaaS B2B',
+  title: 'Montage Vidéo SaaS B2B — Motus Pocus | Vidéos qui convertissent',
   description:
-    'Je crée des vidéos qui révèlent la valeur de votre SaaS en 90 secondes. Montage vidéo et motion design B2B : vidéos de conversion, onboarding et publicité.',
+    'Montage vidéo et motion design pour SaaS B2B. Vidéos de conversion, onboarding et ads qui font comprendre votre produit en 90 secondes. Devis en 24h.',
   metadataBase: new URL('https://motuspocus.fr'),
   openGraph: {
-    title: 'Motus Pocus — Montage Vidéo & Motion Design SaaS B2B',
-    description: 'Je crée des vidéos qui révèlent la valeur de votre SaaS en 90 secondes.',
+    title: 'Montage Vidéo SaaS B2B — Motus Pocus | Vidéos qui convertissent',
+    description: 'Montage vidéo et motion design pour SaaS B2B. Vidéos de conversion, onboarding et ads qui font comprendre votre produit en 90 secondes.',
     url: 'https://motuspocus.fr',
     siteName: 'Motus Pocus',
     locale: 'fr_FR',
@@ -33,8 +33,44 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Person',
+        '@id': 'https://motuspocus.fr/#person',
+        name: 'Gaël',
+        jobTitle: 'Monteur vidéo & Motion Designer SaaS B2B',
+        url: 'https://motuspocus.fr',
+        email: 'motuspocus.lab@gmail.com',
+        sameAs: ['https://linkedin.com/in/motuspocus'],
+      },
+      {
+        '@type': 'Service',
+        '@id': 'https://motuspocus.fr/#service',
+        name: 'Montage Vidéo & Motion Design SaaS B2B',
+        provider: { '@id': 'https://motuspocus.fr/#person' },
+        serviceType: 'Production vidéo',
+        areaServed: { '@type': 'Country', name: 'France' },
+        description:
+          'Montage vidéo et motion design pour SaaS B2B : vidéos de conversion, onboarding et publicité.',
+        offers: [
+          { '@type': 'Offer', name: 'Boost', priceCurrency: 'EUR', price: '1500', description: 'Vidéo de conversion 60-90 sec' },
+          { '@type': 'Offer', name: 'Scale', priceCurrency: 'EUR', price: '2800', description: 'Vidéo conversion + onboarding' },
+          { '@type': 'Offer', name: 'Growth', priceCurrency: 'EUR', price: '4500', description: 'Pack complet : conversion + onboarding + ads' },
+        ],
+      },
+    ],
+  }
+
   return (
     <html lang="fr">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body className={`${inter.variable} antialiased`}>
         <ScrollProgress />
         <CustomCursor />

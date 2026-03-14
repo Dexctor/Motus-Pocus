@@ -11,16 +11,25 @@ gsap.registerPlugin(ScrollTrigger)
 type FormState = 'idle' | 'loading' | 'success' | 'error'
 
 const NEXT_STEPS = [
-  { num: '01', label: 'Vous remplissez le formulaire' },
-  { num: '02', label: 'Je réponds sous 24h — pas un bot' },
-  { num: '03', label: "On décide ensemble si c'est aligné" },
+  { num: '01', label: 'Le formulaire est rempli — 30 secondes.' },
+  { num: '02', label: 'Réponse sous 24h — pas un bot.' },
+  { num: '03', label: "On décide ensemble si c'est aligné." },
 ]
+
+const STEP_LABELS = ['Projet', 'Contact', 'Contexte']
 
 export default function Contact() {
   const sectionRef = useRef<HTMLElement>(null)
   const [formState, setFormState] = useState<FormState>('idle')
-  const [step, setStep] = useState<1 | 2>(1)
-  const [fields, setFields] = useState({ prenom: '', email: '', url: '', type: '', message: '', _trap: '' })
+  const [step, setStep] = useState<1 | 2 | 3>(1)
+  const [fields, setFields] = useState({
+    prenom: '',
+    email: '',
+    url: '',
+    type: '',
+    message: '',
+    _trap: '',
+  })
 
   useGSAP(() => {
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -43,6 +52,11 @@ export default function Contact() {
   const handleStep1 = (e: React.FormEvent) => {
     e.preventDefault()
     setStep(2)
+  }
+
+  const handleStep2 = (e: React.FormEvent) => {
+    e.preventDefault()
+    setStep(3)
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -100,14 +114,14 @@ export default function Contact() {
             className="ct-item"
             style={{
               opacity: 0,
-              fontWeight: 800,
+              fontWeight: 700,
               fontSize: 'clamp(24px, 3.5vw, 38px)',
               letterSpacing: '-0.03em', lineHeight: 1.1,
               color: '#fff', marginBottom: '16px',
             }}
           >
             15 minutes pour savoir<br />
-            <span style={{ color: 'var(--accent)' }}>si on peut travailler ensemble.</span>
+            <span style={{ color: 'var(--accent)' }}>si le projet est aligné.</span>
           </h2>
 
           <p
@@ -233,7 +247,7 @@ export default function Contact() {
                 Message envoyé.
               </h3>
               <p style={{ fontSize: '14px', color: 'var(--text-muted)', lineHeight: 1.65 }}>
-                Je vous reviens sous 24h avec une direction claire pour votre projet.
+                Réponse sous 24h avec une direction claire pour votre projet.
               </p>
             </div>
           ) : (
@@ -243,16 +257,17 @@ export default function Contact() {
               borderRadius: '16px', padding: '28px 26px',
               boxShadow: '0 0 60px rgba(0,0,0,0.3)',
             }}>
-              {/* Progress indicator */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '24px' }}>
-                {[1, 2].map((n) => (
-                  <div key={n} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              {/* Progress indicator — 3 steps */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '24px' }}>
+                {[1, 2, 3].map((n) => (
+                  <div key={n} style={{ display: 'flex', alignItems: 'center', gap: '6px', flex: 1 }}>
                     <div style={{
                       width: '26px', height: '26px', borderRadius: '50%',
                       border: `1.5px solid ${step >= n ? 'var(--accent)' : 'rgba(255,255,255,0.1)'}`,
                       background: step > n ? 'rgba(62,207,142,0.15)' : step === n ? 'rgba(62,207,142,0.08)' : 'transparent',
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
                       transition: 'all 0.3s ease',
+                      flexShrink: 0,
                     }}>
                       {step > n ? (
                         <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
@@ -265,37 +280,87 @@ export default function Contact() {
                       )}
                     </div>
                     <span style={{
-                      fontSize: '12px', color: step === n ? 'rgba(255,255,255,0.6)' : 'rgba(255,255,255,0.25)',
+                      fontSize: '11px', color: step === n ? 'rgba(255,255,255,0.6)' : 'rgba(255,255,255,0.25)',
                       fontWeight: step === n ? 500 : 400,
                       transition: 'color 0.3s ease',
+                      whiteSpace: 'nowrap',
                     }}>
-                      {n === 1 ? 'Vos coordonnées' : 'Votre projet'}
+                      {STEP_LABELS[n - 1]}
                     </span>
-                    {n < 2 && (
+                    {n < 3 && (
                       <div style={{
-                        width: '24px', height: '1px',
-                        background: step > 1 ? 'rgba(62,207,142,0.3)' : 'rgba(255,255,255,0.1)',
+                        flex: 1, height: '1px',
+                        background: step > n ? 'rgba(62,207,142,0.3)' : 'rgba(255,255,255,0.1)',
                         transition: 'background 0.3s ease',
+                        minWidth: '12px',
                       }} />
                     )}
                   </div>
                 ))}
               </div>
 
-              {/* Step 1 */}
+              {/* Honeypot — hidden from humans */}
+              <input
+                type="text"
+                name="_trap"
+                value={fields._trap}
+                onChange={handleChange}
+                tabIndex={-1}
+                aria-hidden="true"
+                style={{ position: 'absolute', left: '-9999px', opacity: 0, height: 0 }}
+                autoComplete="off"
+              />
+
+              {/* Step 1 — Qualification */}
               {step === 1 && (
                 <form onSubmit={handleStep1} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-                  {/* Honeypot — hidden from humans, bots fill it */}
-                  <input
-                    type="text"
-                    name="_trap"
-                    value={fields._trap}
-                    onChange={handleChange}
-                    tabIndex={-1}
-                    aria-hidden="true"
-                    style={{ position: 'absolute', left: '-9999px', opacity: 0, height: 0 }}
-                    autoComplete="off"
-                  />
+
+                  <div>
+                    <label style={{ display: 'block', fontSize: '12px', color: 'rgba(255,255,255,0.38)', marginBottom: '6px', fontWeight: 500 }}>
+                      Type de projet *
+                    </label>
+                    <CustomSelect
+                      value={fields.type}
+                      onChange={(v) => setFields((p) => ({ ...p, type: v }))}
+                      required
+                    />
+                  </div>
+
+                  <div>
+                    <label style={{ display: 'block', fontSize: '12px', color: 'rgba(255,255,255,0.38)', marginBottom: '6px', fontWeight: 500 }}>
+                      URL du SaaS
+                    </label>
+                    <input
+                      type="url" name="url"
+                      value={fields.url} onChange={handleChange}
+                      placeholder="https://monsaas.io"
+                      className="form-input"
+                      autoFocus
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="btn-primary"
+                    style={{
+                      width: '100%', justifyContent: 'center',
+                      padding: '16px 24px', fontSize: '15px', fontWeight: 700,
+                      marginTop: '4px',
+                      boxShadow: '0 4px 24px rgba(62,207,142,0.25)',
+                    }}
+                  >
+                    Continuer →
+                  </button>
+
+                  <p style={{ fontSize: '11px', color: 'rgba(255,255,255,0.18)', textAlign: 'center' }}>
+                    Aucune donnée personnelle à cette étape
+                  </p>
+                </form>
+              )}
+
+              {/* Step 2 — Contact */}
+              {step === 2 && (
+                <form onSubmit={handleStep2} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
 
                   <div>
                     <label style={{ display: 'block', fontSize: '12px', color: 'rgba(255,255,255,0.38)', marginBottom: '6px', fontWeight: 500 }}>
@@ -312,7 +377,7 @@ export default function Contact() {
 
                   <div>
                     <label style={{ display: 'block', fontSize: '12px', color: 'rgba(255,255,255,0.38)', marginBottom: '6px', fontWeight: 500 }}>
-                      Email *
+                      Email professionnel *
                     </label>
                     <input
                       type="email" name="email" required
@@ -338,50 +403,45 @@ export default function Contact() {
                   <p style={{ fontSize: '11px', color: 'rgba(255,255,255,0.18)', textAlign: 'center' }}>
                     Aucun spam · Réponse sous 24h
                   </p>
+
+                  {/* Back link */}
+                  <button
+                    type="button"
+                    onClick={() => setStep(1)}
+                    style={{
+                      background: 'none', border: 'none', cursor: 'pointer',
+                      fontSize: '12px', color: 'rgba(255,255,255,0.28)',
+                      fontFamily: 'inherit', textAlign: 'center',
+                      transition: 'color 0.2s',
+                      marginTop: '-4px',
+                    }}
+                    onMouseEnter={(e) => (e.currentTarget.style.color = 'rgba(255,255,255,0.6)')}
+                    onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(255,255,255,0.28)')}
+                  >
+                    ← Modifier le projet
+                  </button>
                 </form>
               )}
 
-              {/* Step 2 */}
-              {step === 2 && (
+              {/* Step 3 — Contexte (optionnel) */}
+              {step === 3 && (
                 <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-                  {/* URL du site */}
-                  <div>
-                    <label style={{ display: 'block', fontSize: '12px', color: 'rgba(255,255,255,0.38)', marginBottom: '6px', fontWeight: 500 }}>
-                      URL de votre site
-                    </label>
-                    <input
-                      type="url" name="url"
-                      value={fields.url} onChange={handleChange}
-                      placeholder="https://monsaas.io"
-                      className="form-input"
-                      autoFocus
-                    />
-                  </div>
 
-                  {/* Type de projet */}
                   <div>
                     <label style={{ display: 'block', fontSize: '12px', color: 'rgba(255,255,255,0.38)', marginBottom: '6px', fontWeight: 500 }}>
-                      Type de projet *
-                    </label>
-                    <CustomSelect
-                      value={fields.type}
-                      onChange={(v) => setFields((p) => ({ ...p, type: v }))}
-                      required
-                    />
-                  </div>
-
-                  {/* Message */}
-                  <div>
-                    <label style={{ display: 'block', fontSize: '12px', color: 'rgba(255,255,255,0.38)', marginBottom: '6px', fontWeight: 500 }}>
-                      Contexte du projet *
+                      Ce que vous voulez changer
+                      <span style={{ color: 'rgba(255,255,255,0.22)', fontWeight: 400, marginLeft: '6px' }}>
+                        Optionnel — mais ça aide à préparer la réponse
+                      </span>
                     </label>
                     <textarea
-                      name="message" required
+                      name="message"
                       value={fields.message} onChange={handleChange}
-                      placeholder="Décrivez votre SaaS, ce que vos visiteurs ne comprennent pas assez vite, et ce que vous cherchez à obtenir…"
+                      placeholder="Décrivez ce qui ne fonctionne pas aujourd'hui, ou ce que vous aimeriez améliorer…"
                       rows={4}
                       className="form-input"
                       style={{ resize: 'vertical', minHeight: '100px' }}
+                      autoFocus
                     />
                   </div>
 
@@ -390,10 +450,6 @@ export default function Contact() {
                       Une erreur est survenue. Écrivez-moi directement à motuspocus.lab@gmail.com
                     </p>
                   )}
-
-                  <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.28)', textAlign: 'center', marginBottom: '-4px' }}>
-                    Je lis chaque message personnellement.
-                  </p>
 
                   <button
                     type="submit"
@@ -407,17 +463,17 @@ export default function Contact() {
                       boxShadow: formState !== 'loading' ? '0 4px 24px rgba(62,207,142,0.25)' : 'none',
                     }}
                   >
-                    {formState === 'loading' ? 'Envoi en cours…' : 'Lancer la conversation →'}
+                    {formState === 'loading' ? 'Envoi en cours…' : 'Lancer la conversation'}
                   </button>
 
                   <p style={{ fontSize: '11px', color: 'rgba(255,255,255,0.18)', textAlign: 'center' }}>
-                    Pas de Calendly imposé · Pas de spam
+                    Réponse sous 24h. Sans engagement.
                   </p>
 
                   {/* Back link */}
                   <button
                     type="button"
-                    onClick={() => setStep(1)}
+                    onClick={() => setStep(2)}
                     style={{
                       background: 'none', border: 'none', cursor: 'pointer',
                       fontSize: '12px', color: 'rgba(255,255,255,0.28)',

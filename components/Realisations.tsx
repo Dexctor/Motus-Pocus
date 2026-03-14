@@ -222,7 +222,7 @@ function ProjectCard({ project }: { project: typeof PROJECTS[0] }) {
             <span
               className="tabnum"
               style={{
-                fontWeight: 800, fontSize: 'clamp(28px, 4vw, 38px)',
+                fontWeight: 700, fontSize: 'clamp(28px, 4vw, 38px)',
                 letterSpacing: '-0.04em', color: 'var(--accent)', lineHeight: 1,
               }}
             >
@@ -333,7 +333,7 @@ export default function Realisations() {
           <p className="section-label" style={{ opacity: 0 }}>02 — Réalisations</p>
           <h2 style={{
             opacity: 0,
-            fontWeight: 800,
+            fontWeight: 700,
             fontSize: 'clamp(26px, 4vw, 40px)',
             letterSpacing: '-0.03em', lineHeight: 1.1, color: '#fff',
             maxWidth: '540px', marginBottom: '12px',
@@ -386,7 +386,7 @@ export default function Realisations() {
             Un brief de 15 minutes suffit pour savoir si je peux vous aider.
           </p>
           <a href="#contact" className="btn-primary" style={{ display: 'inline-flex' }}>
-            Discutons de votre projet →
+            Obtenir le même résultat →
           </a>
         </div>
       </div>

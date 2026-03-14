@@ -9,6 +9,13 @@ gsap.registerPlugin(ScrollTrigger)
 
 export default function SmoothScrollProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
+    // Disable Lenis smooth scroll on mobile/touch to improve INP
+    const isMobile =
+      window.matchMedia('(hover: none)').matches ||
+      window.matchMedia('(max-width: 768px)').matches
+
+    if (isMobile) return
+
     const lenis = new Lenis({
       duration: 1.4,
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),

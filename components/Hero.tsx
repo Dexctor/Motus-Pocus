@@ -113,13 +113,13 @@ export default function Hero() {
             className="hero-line-1"
             style={{ display: 'block', opacity: 0, color: 'rgba(255,255,255,0.38)' }}
           >
-            Des mois de travail. Un produit solide.
+            Votre produit est solide.
           </span>
           <span
             className="hero-line-2"
             style={{ display: 'block', opacity: 0, color: '#fff' }}
           >
-            8 secondes pour convaincre — ou jamais.
+            La vidéo qui transforme un visiteur en utilisateur.
           </span>
         </h1>
 
@@ -134,8 +134,8 @@ export default function Hero() {
             marginBottom: '40px',
           }}
         >
-          80% de vos visiteurs repartent sans comprendre votre produit.{' '}
-          <span style={{ color: 'var(--accent)', fontWeight: 600 }}>Une vidéo change ça.</span>
+          +34% de clics sur le CTA hero en 6 semaines.{' '}
+          <span style={{ color: 'var(--accent)', fontWeight: 600 }}>Montage vidéo et motion design pour SaaS B2B.</span>
         </p>
       </div>
       </div>{/* end hero-parallax-text */}
@@ -160,9 +160,12 @@ export default function Hero() {
       >
         <video
           autoPlay muted loop playsInline preload="auto"
-          src="/showreel.mp4"
+          poster="/showreel-poster.webp"
           style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
-        />
+        >
+          <source src="/showreel.webm" type="video/webm" />
+          <source src="/showreel.mp4" type="video/mp4" />
+        </video>
         {/* Placeholder tant que showreel.mp4 n'existe pas */}
         <div style={{
           position: 'absolute', inset: 0,
@@ -184,31 +187,28 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* ── CTAs ── */}
+      {/* ── CTA unique ── */}
       <div
         className="hero-ctas"
         style={{
           opacity: 0,
-          display: 'flex', gap: '12px', flexWrap: 'wrap', justifyContent: 'center',
+          display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px',
           position: 'relative', zIndex: 2,
         }}
       >
         <MagneticWrap strength={0.4}>
           <div className="moving-border-wrap">
             <div className="moving-border-spinner" aria-hidden />
-            <a href="#realisations" className="btn-primary">
-              Voir ce que ça donne
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <path d="M12 5v14M5 12l7 7 7-7"/>
-              </svg>
+            <a href="#contact" className="btn-primary">
+              Lancer ma vidéo SaaS →
             </a>
           </div>
         </MagneticWrap>
-        <MagneticWrap strength={0.4}>
-          <a href="#contact" className="btn-ghost hero-cta-contact">
-            Lancer la conversation →
-          </a>
-        </MagneticWrap>
+        <p style={{
+          fontSize: '12px', color: 'rgba(255,255,255,0.25)', textAlign: 'center', lineHeight: 1.6,
+        }}>
+          Réponse sous 24h · Sans engagement · Pas de Calendly imposé
+        </p>
       </div>
 
       {/* Scroll hint */}

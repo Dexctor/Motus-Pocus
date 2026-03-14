@@ -74,6 +74,7 @@ export default function Apropos() {
               src="/portrait.png"
               alt="Gaël — Motion designer SaaS B2B"
               fill
+              sizes="160px"
               style={{ objectFit: 'cover' }}
               priority
             />
@@ -91,14 +92,14 @@ export default function Apropos() {
             className="ap-item"
             style={{
               opacity: 0,
-              fontWeight: 800,
+              fontWeight: 700,
               fontSize: 'clamp(22px, 3.5vw, 34px)',
               letterSpacing: '-0.03em', lineHeight: 1.12, color: '#fff',
               marginBottom: '20px',
             }}
           >
-            Je transforme des produits SaaS complexes en vidéos que les décideurs comprennent{' '}
-            <span style={{ color: 'var(--accent)' }}>en 90 secondes.</span>
+            Gaël — motion designer spécialisé{' '}
+            <span style={{ color: 'var(--accent)' }}>SaaS B2B.</span>
           </h2>
 
           {/* Pourquoi humain — 2 phrases */}
@@ -110,8 +111,8 @@ export default function Apropos() {
               marginBottom: '28px', maxWidth: '500px',
             }}
           >
-            J'ai vu trop de bons produits disparaître parce qu'ils n'arrivaient pas à se montrer.
-            Ce métier, je le fais pour que ça ne soit plus une raison d'échouer.
+            Avant, j’ai vu trop de bons SaaS disparaître parce qu’ils ne savaient pas se montrer.
+            Aujourd’hui, chaque seconde de vidéo que je monte sert la compréhension — pas le spectacle.
           </p>
 
           {/* Signal de crédibilité */}
@@ -129,17 +130,17 @@ export default function Apropos() {
             </div>
           </div>
 
-          {/* CTA discret */}
+          {/* CTA vers contact */}
           <div className="ap-item" style={{ opacity: 0 }}>
             <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: '12px' }}>
-              Vous voulez voir comment je travaille concrètement ?
+              Un brief de 15 minutes suffit pour savoir si le projet est aligné.
             </p>
             <a
-              href="#realisations"
-              className="btn-ghost"
-              style={{ padding: '9px 20px', fontSize: '13px' }}
+              href="#contact"
+              className="btn-primary"
+              style={{ padding: '9px 20px', fontSize: '13px', display: 'inline-flex' }}
             >
-              Voir les réalisations
+              Vérifier si ça colle →
             </a>
           </div>
         </div>

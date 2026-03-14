@@ -78,12 +78,12 @@ export default function FiltreClient() {
           </p>
           <h2 style={{
             opacity: 0,
-            fontWeight: 800, fontSize: 'clamp(26px, 4vw, 42px)',
+            fontWeight: 700, fontSize: 'clamp(26px, 4vw, 42px)',
             letterSpacing: '-0.03em', lineHeight: 1.1, color: '#fff',
           }}>
-            Je travaille avec peu de clients.{' '}
+            Peu de clients. Des projets sur-mesure.{' '}
             <span style={{ color: 'var(--text-muted)', fontWeight: 600 }}>
-              Et je choisis.
+              Zéro compromis sur la qualité.
             </span>
           </h2>
         </div>
@@ -187,7 +187,7 @@ export default function FiltreClient() {
             Vous vous reconnaissez dans la colonne de droite ?
           </p>
           <a href="#contact" className="btn-primary" style={{ display: 'inline-flex' }}>
-            On en parle →
+            Vérifier si ça colle →
           </a>
         </div>
       </div>

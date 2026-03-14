@@ -54,7 +54,7 @@ export default function MobileCTA() {
           padding: '15px 24px',
         }}
       >
-        Lancer la conversation →
+        Lancer ma vidéo →
       </a>
     </div>
   )
