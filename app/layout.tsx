@@ -28,11 +28,20 @@ export const metadata: Metadata = {
     siteName: 'Motus Pocus',
     locale: 'fr_FR',
     type: 'website',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Motus Pocus — Montage vidéo et motion design SaaS B2B',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Montage Vidéo SaaS B2B — Motus Pocus',
     description: 'Vidéos de conversion, onboarding et ads pour SaaS B2B. Devis en 24h.',
+    images: ['/og-image.png'],
   },
   icons: {
     icon: '/favicon.ico',

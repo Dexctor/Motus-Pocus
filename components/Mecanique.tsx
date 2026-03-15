@@ -77,7 +77,7 @@ export default function Mecanique() {
             fontWeight: 700, fontSize: 'clamp(26px, 4vw, 42px)',
             letterSpacing: '-0.03em', lineHeight: 1.1, color: '#fff', marginBottom: '16px',
           }}>
-            Une vidéo de 90 secondes fait ce que 10 pages de docs ne font pas.
+            Un montage vidéo de 90 secondes fait ce que 10 pages de docs ne font pas.
           </h2>
           <p style={{
             opacity: 0,
